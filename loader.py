@@ -1,22 +1,5 @@
 """
-windows vps optimizer for the roblox farm boxes, ported over from loader.cs (the c# one)
-
-basically tunes the network stuff, power plan, memory/registry settings and roblox fflags
-on the vps. needs admin to run, it just relaunches itself with uac if its not
-
-stuff i took out bc owner doesnt want it anymore:
-  - DisableDefender() / HasDefenderDisabled() - the defender disabling junk
-  - InstallRealtekDriver() - scraped some hidden mediafire link and ran whatever it downloaded
-  - the hardcoded administrator password + forced autologin registry stuff that was inside
-    ApplyAutoLoginAndCleanup. kept the power plan + temp cleanup task half of it tho, renamed
-    it apply_power_plan_and_cleanup_tasks and gave it its own done marker since the old check
-    was looking at autologin which we dont touch anymore
-
-also there was a bunch of dead p/invoke stuff in the original (SetProcessWorkingSetSize,
-NtSetSystemInformation, EmptyWorkingSet, GlobalMemoryStatusEx, EnablePrivilege) that never
-actually got called anywhere. made it do something now in clear_system_memory() - trims this
-process's working set then flushes the modified list + purges the standby list for the whole
-system, same trick EmptyStandbyList/RAMMap use
+windows optimizer for vpses running windows 10 server 2022
 """
 
 import ctypes
@@ -1601,7 +1584,7 @@ def run_first_time_setup() -> None:
 
 
 # ---------------------------------------------------------------------------
-# main entry point, this is where it all kicks off
+# run sum funcs
 # ---------------------------------------------------------------------------
 
 def main() -> None:
