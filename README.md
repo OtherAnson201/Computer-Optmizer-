@@ -1,10 +1,10 @@
 # Computer Optimizer
 
-Tunes a Windows VPS (Windows 10 or Server 2022) to run many Roblox clients at once with as little CPU and memory per client as possible. One script applies everything, and a second one checks that it took.
+Tunes a Windows Server (Windows 10 or Server 2022) to run many processes at once with as little CPU and memory per client as possible. One script applies everything, and a second one checks that it took.
 
 > [!WARNING]
 > **Only run this on a dedicated VPS, not your everyday PC.**
->
+> - Before making any changes, the script automatically creates a Windows System Restore Point named `Before Roblox Optimizer`. This allows you to restore Windows     system settings if something goes wrong.
 > - It changes system-wide settings and has no undo.
 > - It **deletes `loader.py` and reboots the machine** 15 seconds after finishing, so keep a copy somewhere else.
 > - Some paths assume you're logged in as `Administrator`.
@@ -28,7 +28,7 @@ powershell -ExecutionPolicy Bypass -File check_opti.ps1
 ## What it changes
 
 ### Windows
-
+- **Restore Point:** Creates a Windows System Restore Point before applying any optimizations.
 - **Power:** switches to a high performance plan, turns off CPU core parking and throttling, and disables sleep and monitor timeouts.
 - **Network:** widens the TCP and UDP port range to 64,511 ports and turns off network adapter power saving, which helps avoid port exhaustion with many clients.
 - **Memory:** disables memory compression and page combining, and purges the standby and modified memory lists before rebooting.
@@ -42,7 +42,6 @@ powershell -ExecutionPolicy Bypass -File check_opti.ps1
 |---|---|
 | `TempCleanup5Min` | Clears the temp and Prefetch folders every 5 minutes |
 | `MemReductAndRobloxFpsLoop` | Restarts Mem Reduct if it stops, and holds the Roblox FPS cap at 6 |
-| `FarmSyncWatchdog` | Watches the FarmSync client's state file and reports when it stops updating |
 
 It also disables Server Manager from opening at logon.
 
